@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/blade', function () {
     return view('welcome');
 });
+
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');

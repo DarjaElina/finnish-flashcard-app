@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'finnfast' => [
+        'key' => env('FINNFAST_API_KEY'),
+    ],
+
 ];

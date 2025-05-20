@@ -1,11 +1,279 @@
-@import 'tailwindcss';
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+.card {
+    perspective: 1000px;
+    min-width: 250px;
+    min-height: 180px;
+    margin: 2rem;
+  }
+  
+  .card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+  }
+  
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    backface-visibility: hidden;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .card-front h2 {
+    color: #ce93d8;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-front p {
+    color: #bdbdbd;
+    font-size: 0.9rem;
+  }
+  
+  .card-back {
+    background-color: #2a2a2a;
+    transform: rotateY(180deg);
+  }
+  
+  .card-back h2 {
+    color: #e1bee7;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-back p {
+    font-size: 0.9rem;
+    color: #d1c4e9;
+  }
+  
+  .card-back button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #8e24aa;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-back button:hover {
+    background-color: #7b1fa2;
+  }
+  
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
-}
+  .cards-container {
+    min-height: 100vh;
+    background-color: #121212;
+    color: #ffffff;
+    padding: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .cards-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #ce93d8;
+    text-align: center;
+  }
+  
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .error-msg {
+    color: #f87171;
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: 600;
+  }
+  
+
+.app-header {
+    background-color: #1e1e2f;
+    padding: 1rem 2rem;
+    color: #ce93d8;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    user-select: none;
+  }
+  
+  .app-header h1 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .nav-link {
+    color: #d1b2e0;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+    padding-bottom: 0.2rem;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .nav-link:hover {
+    color: #e7cee9;
+    border-bottom-color: #ce93d8;
+  }
+  
+  .active-link {
+    color: #ce93d8;
+    border-bottom-color: #ce93d8;
+    font-weight: 700;
+  }
+  
+  
+  
+  .form-container {
+    max-width: 420px;
+    margin: 3rem auto;
+    background-color: #1c1b29;
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    color: #eee;
+  }
+  
+  .form-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: #bb8fcc;
+    text-align: center;
+    letter-spacing: 0.03em;
+  }
+  
+  .card-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #b49fcf;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .form-input,
+  .form-textarea {
+    background-color: #121217;
+    border: 1px solid #9e81af;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    /* margin-bottom: 1rem; */
+    color: #ddd;
+    font-size: 0.95rem;
+    transition: border-color 0.25s ease;
+    font-family: inherit;
+    box-shadow: none;
+  }
+  
+  .form-input:focus,
+  .form-textarea:focus {
+    border-color: #c2a0d6;
+    outline: none;
+    box-shadow: 0 0 6px #bb8fcc66;
+  }
+  
+  .form-textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.4;
+  }
+  
+  .form-button {
+    background-color: #b088c7;
+    color: #1c1b29;
+    font-weight: 600;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background-color 0.3s ease;
+    box-shadow: none;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  
+  .form-button:hover {
+    background-color: #d1b7e0;
+  }
+  
+  .card-btns {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .edit-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  
+  .card-btns {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .form-error {
+    color: red;
+    font-size: 13px;
+  }
+
+  .edit-input {
+    margin-bottom: 0.5rem;
+  }
+
+  

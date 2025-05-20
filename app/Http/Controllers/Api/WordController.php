@@ -21,15 +21,14 @@ class WordController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+            'finnish' => 'required|string|max:50',
+            'english' => 'required|string|max:50',
+            'example' => 'required|string|max:250'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $word = Word::create($validated);
+        return response()->json($word, 201);
     }
 
     /**
@@ -37,7 +36,15 @@ class WordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $word = Word::findOrFail($id);
+        $validated = $request->validate([
+            'finnish' => 'sometimes|string|max:50',
+            'english' => 'sometimes|string|max:50',
+            'example' => 'sometimes|string|max:250'
+        ]);
+
+        $word->update($validated);
+        return response()->json($word);
     }
 
     /**
@@ -45,6 +52,8 @@ class WordController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $word = Word::findOrFail($id);
+        $word->delete();
+        return response()->json(null, 204);
     }
 }

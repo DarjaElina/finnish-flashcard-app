@@ -1,0 +1,195 @@
+import { useState } from "react";
+import { useWords } from "../context/WordContext";
+import Swal from "sweetalert2";
+
+const Card = ({ word, onSave, isSaved }) => {
+  const [flipped, setFlipped] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const { updateWord, deleteWord } = useWords();
+  const [updatedWord, setUpdatedWord] = useState({
+    english: word.english,
+    finnish: word.finnish,
+    example: word.example,
+  });
+
+  const openEditMode = (e) => {
+    e.stopPropagation();
+    setIsEditing(true);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedWord((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async (e) => {
+    e.stopPropagation();
+    try {
+      await updateWord(word.id, updatedWord);
+      setIsEditing(false);
+      Swal.fire({
+        title: "Saved!",
+        icon: "success",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
+    } catch (e) {
+      Swal.fire({
+        title: "Error saving",
+        text: e?.response?.data?.error || e.message || "Something went wrong",
+        icon: "error",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.stopPropagation();
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to recover this word!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#a14cc6",
+      cancelButtonColor: "#888",
+      confirmButtonText: "Yes, delete it!",
+      background: "#2e003e",
+      color: "#f5e8ff",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteWord(word.id);
+        Swal.fire({
+          title: "Deleted!",
+          text: "The word has been deleted.",
+          icon: "success",
+          background: "#2e003e",
+          color: "#f5e8ff",
+          confirmButtonColor: "#a14cc6",
+        });
+      } catch (e) {
+        Swal.fire({
+          title: "Error deleting",
+          text: e?.response?.data?.error || e.message || "Something went wrong",
+          icon: "error",
+          background: "#2e003e",
+          color: "#f5e8ff",
+          confirmButtonColor: "#a14cc6",
+        });
+      }
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.stopPropagation();
+    setIsEditing(false);
+  };
+
+  return (
+    <div
+      className={`card ${flipped ? "flipped" : ""}`}
+      onClick={() => !isEditing && setFlipped(!flipped)}
+    >
+      <div className="card-inner">
+        <div className="card-front">
+          <h2>{word.finnish}</h2>
+        </div>
+        <div className="card-back">
+          {isEditing ? (
+            <div className="edit-form">
+              <label htmlFor="finnish" className="form-label">
+                Enter Finnish word
+              </label>
+              <input
+                onChange={handleChange}
+                value={updatedWord.finnish}
+                name="finnish"
+                id="finnish"
+                type="text"
+                className="form-input"
+              />
+              <label htmlFor="english" className="form-label">
+                Enter translation
+              </label>
+              <input
+                onChange={handleChange}
+                value={updatedWord.english}
+                name="english"
+                id="english"
+                type="text"
+                className="form-input"
+              />
+              <label htmlFor="example" className="form-label">
+                Enter example
+              </label>
+              <textarea
+                onChange={handleChange}
+                value={updatedWord.example}
+                name="example"
+                id="example"
+                type="text"
+                className="form-input"
+              />
+              <button
+                onClick={handleSave}
+                className="form-button save-button"
+              >
+                Save
+              </button>
+              <button
+                onClick={handleCancel}
+                className="form-button save-button"
+              >
+                Cancel
+              </button>
+            </div>
+          ) : (
+            <>
+              <h2>{word.english}</h2>
+              <p>
+                <em>{word.example}</em>
+              </p>
+            </>
+          )}
+
+          {!isSaved && !isEditing && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onSave(word);
+              }}
+              className="form-button"
+            >
+              Save
+            </button>
+          )}
+
+          {isSaved && !isEditing && (
+            <div className="card-btns">
+              <button
+                onClick={handleDelete}
+                className="form-button danger-button"
+              >
+                Delete
+              </button>
+              <button
+                onClick={openEditMode}
+                className="form-button secondary-button"
+              >
+                Edit
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Card;
+
+
