@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 const Card = ({ word, onSave, isSaved }) => {
   const [flipped, setFlipped] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const { updateWord, deleteWord } = useWords();
+  const { updateWord, deleteWord, addWord } = useWords();
   const [updatedWord, setUpdatedWord] = useState({
     english: word.english,
     finnish: word.finnish,
@@ -22,7 +22,7 @@ const Card = ({ word, onSave, isSaved }) => {
     setUpdatedWord((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async (e) => {
+  const handleUpdate = async (e) => {
     e.stopPropagation();
     try {
       await updateWord(word.id, updatedWord);
@@ -35,6 +35,11 @@ const Card = ({ word, onSave, isSaved }) => {
         confirmButtonColor: "#a14cc6",
       });
     } catch (e) {
+      setUpdatedWord({
+        english: word.english,
+        finnish: word.finnish,
+        example: word.example,
+      })
       Swal.fire({
         title: "Error saving",
         text: e?.response?.data?.error || e.message || "Something went wrong",
@@ -89,6 +94,34 @@ const Card = ({ word, onSave, isSaved }) => {
     setIsEditing(false);
   };
 
+  const handleSave = async (e) => {
+    e.stopPropagation();
+    try {
+      await addWord({
+          finnish: word.finnish,
+          english: word.english,
+          example: word.example,
+      });
+      Swal.fire({
+        title: "Saved!",
+        text: "The word has been saved.",
+        icon: "success",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
+    } catch (e) {
+      Swal.fire({
+        title: "Error saving",
+        text: e?.response?.data?.error || e.message || "Something went wrong",
+        icon: "error",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
+    }
+  }
+
   return (
     <div
       className={`card ${flipped ? "flipped" : ""}`}
@@ -101,51 +134,44 @@ const Card = ({ word, onSave, isSaved }) => {
         <div className="card-back">
           {isEditing ? (
             <div className="edit-form">
-              <label htmlFor="finnish" className="form-label">
-                Enter Finnish word
-              </label>
               <input
                 onChange={handleChange}
                 value={updatedWord.finnish}
                 name="finnish"
                 id="finnish"
                 type="text"
-                className="form-input"
+                className="form-input edit-input"
               />
-              <label htmlFor="english" className="form-label">
-                Enter translation
-              </label>
               <input
                 onChange={handleChange}
                 value={updatedWord.english}
                 name="english"
                 id="english"
                 type="text"
-                className="form-input"
+                className="form-input edit-input"
               />
-              <label htmlFor="example" className="form-label">
-                Enter example
-              </label>
               <textarea
                 onChange={handleChange}
                 value={updatedWord.example}
                 name="example"
                 id="example"
                 type="text"
-                className="form-input"
+                className="form-input edit-input"
               />
-              <button
-                onClick={handleSave}
-                className="form-button save-button"
-              >
-                Save
-              </button>
-              <button
-                onClick={handleCancel}
-                className="form-button save-button"
-              >
-                Cancel
-              </button>
+              <div className="edit-btns">
+                <button
+                  onClick={handleUpdate}
+                  className="form-button"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={handleCancel}
+                  className="form-button"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           ) : (
             <>
@@ -158,10 +184,7 @@ const Card = ({ word, onSave, isSaved }) => {
 
           {!isSaved && !isEditing && (
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onSave(word);
-              }}
+              onClick={handleSave}
               className="form-button"
             >
               Save

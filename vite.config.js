@@ -12,12 +12,12 @@ export default defineConfig({
     ],
     server: {
         host: "flashcard-app.test",
-        port: 5173,
+        port: 5174,
         strictPort: true,
         hmr: {
             host: "flashcard-app.test",
             protocol: "http",
-            port: 5173,
+            port: 5174,
         },
     },
 });

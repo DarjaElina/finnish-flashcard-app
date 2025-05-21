@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useWords } from "../context/WordContext";
+import Swal from "sweetalert2";
 
 const CreateCard = () => {
   const [formData, setFormData] = useState({
@@ -36,9 +36,30 @@ const CreateCard = () => {
     setErrors({});
     try {
       await addWord(formData);
-      navigate("/saved");
+      setFormData({
+        finnish: "",
+        english: "",
+        example: ""
+      })
+       Swal.fire({
+        title: "Saved!",
+        icon: "success",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
+      setTimeout(() => {
+        navigate("/saved");
+      }, 3000)
     } catch (err) {
-      alert("Failed to create card.");
+      Swal.fire({
+        title: "Error saving",
+        text: e?.response?.data?.error || e.message || "Something went wrong",
+        icon: "error",
+        background: "#2e003e",
+        color: "#f5e8ff",
+        confirmButtonColor: "#a14cc6",
+      });
     }
   };
 
