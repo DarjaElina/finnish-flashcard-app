@@ -5,7 +5,21 @@ import Moose from "./Moose";
 const Cards = () => {
     const { words, error } = useWords();
 
-    if (error) return <p className="error-msg">{error}</p>;
+     if (error) {
+        return (
+            <div className="cards-container">
+                <Moose text="Oops! Something went wrong! 😢" />
+            </div>
+        );
+    }
+
+    if (words.length === 0) {
+      return (
+          <div className="cards-container">
+              <Moose text="Hmm... no words here just yet! Let’s add some and start your Finnish journey ✨" />
+          </div>
+      );
+    }
 
     return (
         <div className="cards-container">
