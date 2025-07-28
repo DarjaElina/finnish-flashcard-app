@@ -7,6 +7,7 @@
   <title>Flashcard App</title>
   @viteReactRefresh
   @vite(['resources/js/app.jsx', 'resources/css/app.css'])
+  <link rel="icon" type="image/x-icon" href="/moose.png">
 </head>
 
 <body>
