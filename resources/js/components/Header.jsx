@@ -1,24 +1,65 @@
 import { NavLink } from "react-router";
+import { useState } from "react";
 
 const Header = () => {
-  return (
-    <header className="app-header">
-      <h1>Welcome to Finnish Vocabulary Flashcards App! 🇫🇮</h1>
-      <nav>
-        <ul className="nav-list">
-          <li>
-            <NavLink to="/cards" className="nav-link" >Cards</NavLink>
-          </li>
-          <li>
-            <NavLink to="/saved" className="nav-link" >Saved cards</NavLink>
-          </li>
-          <li>
-            <NavLink to="/create" className="nav-link" >Create card</NavLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
-  );
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+    return (
+        <header className="app-header">
+            <div className="header-top">
+                <h1>Finnish Flashcards 🇫🇮</h1>
+                <button
+                    className="hamburger"
+                    onClick={toggleMenu}
+                    aria-label="Toggle menu"
+                >
+                    ☰
+                </button>
+            </div>
+            <nav>
+                <ul className={`nav-list ${menuOpen ? "open" : ""}`}>
+                    <li>
+                        <NavLink
+                            to="/"
+                            className="nav-link"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            Home
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/cards"
+                            className="nav-link"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            Cards
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/saved"
+                            className="nav-link"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            Saved cards
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/create"
+                            className="nav-link"
+                            onClick={() => setMenuOpen(false)}
+                        >
+                            Create card
+                        </NavLink>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+    );
 };
 
 export default Header;

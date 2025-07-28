@@ -8,5 +8,5 @@ createRoot(document.getElementById("root")).render(
         <WordProvider>
             <App />
         </WordProvider>
-    </StrictMode>
+    </StrictMode>,
 );
