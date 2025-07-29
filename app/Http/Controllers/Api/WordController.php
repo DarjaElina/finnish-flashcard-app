@@ -11,14 +11,11 @@ class WordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Word::all();
+        return $request->user()->words;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,9 +24,13 @@ class WordController extends Controller
             'example' => 'required|string|max:250'
         ]);
 
-        $word = Word::create($validated);
+        $user = $request->user();
+
+        $word = $user->words()->create($validated);
+
         return response()->json($word, 201);
     }
+
 
     /**
      * Update the specified resource in storage.
