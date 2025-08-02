@@ -1,14 +1,27 @@
-## Finnish Vocabulary Flashcard App
+## Finnish Flashcard App – Backend
 
-A study project developed for Laravel Course at [Helsinki Business College](https://www.bc.fi/).
+This is the backend for the [Finnish Flashcard App](https://github.com/DarjaElina/finnish-flashcard-app-frontend), originally created as a Laravel course project at [Helsinki Business College](https://www.bc.fi/).  
+It has since been extended as a personal portfolio and learning project.
 
-#### Features
-- Fetch Finnish words from the finnfast.fi API.
-- Interactive flashcards: click to reveal translations and examples.
-- Save favorite words to the Laravel backend.
-- Toggle between flashcard view and other app features.
+---
 
-#### Tech Stack
-- Frontend: React
-- Backend: Laravel
-- External API: finnfast.fi
+### Tech Stack
+
+- **Laravel** (PHP 8+)
+- **Sanctum** (authentication)
+- **PostgreSQL**
+- **Laravel Seeders**
+
+---
+
+### Features
+
+- User authentication
+- Create, edit, delete personal flashcards
+- Paginated list of shared flashcards
+- RESTful API consumed by the React frontend
+
+---
+
+### 💙 Credits
+Originally built for school — now extended as a personal project.
