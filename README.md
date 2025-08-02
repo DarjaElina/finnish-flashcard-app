@@ -7,7 +7,7 @@ It has since been extended into a personal portfolio and learning project.
 
 The app is still under development, but the core features are already live 😁
 
-🪩 You can check out the deployed application [here](https://finnish-flashcard-app-frontend.vercel.app/login).
+🪩 You can check out the deployed application [here](https://finnish-flashcard-app-frontend.vercel.app).
 
 ### What's already there
 1. Access demo flashcards  
